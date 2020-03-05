@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockView : MonoBehaviour
+public class LatchView : MonoBehaviour
 {
     private Material material;
-    private Color defaultColor;
+    private Animator animator;
 
     private void Start()
     {
         material = GetComponent<MeshRenderer>().sharedMaterial;
-        defaultColor = material.color;
+        animator = GetComponent<Animator>();
     }
 
     public void SetColor(Color color)
@@ -18,8 +18,8 @@ public class LockView : MonoBehaviour
         material.color = color;
     }
 
-    public void SetDefaultColor()
+    public void PlayAnimation(string triggerName)
     {
-        material.color = defaultColor;
+        animator.SetTrigger(triggerName);
     }
 }
