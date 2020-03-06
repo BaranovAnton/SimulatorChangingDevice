@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class LatchController : MonoBehaviour
 {
+    public Material lockedMaterial, unlockedMaterial;
+
     public LatchModel latchModel { get; private set; }
     public LatchView latchView { get; private set; }
+
+    private DragObject dragObject;
 
     /*public LatchController(LatchModel latchModel, LatchView latchView)
     {
@@ -19,13 +23,16 @@ public class LatchController : MonoBehaviour
         this.latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked);
         this.latchView = GetComponentInChildren<LatchView>();
         this.latchModel.OnStateChanged += LatchStateChanged;
+
+        dragObject = this.gameObject.AddComponent<DragObject>();
+        dragObject.SetConstraints(1.0f, 1.0f, -0.9f, 0.5f, 0f, 0f);
     }
 
     private void OnMouseDown()
     {
         // need to add a delay because of the animation
 
-        switch(latchModel.State)
+        /*switch(latchModel.State)
         {
             case LockStates.LockStateEnum.locked:
                 latchModel.State = LockStates.LockStateEnum.unlocked;
@@ -37,6 +44,22 @@ public class LatchController : MonoBehaviour
                 break;
             default:
                 break;
+        }*/
+
+        dragObject.StartDrag();
+    }
+
+    private void OnMouseDrag()
+    {
+        dragObject.Drag();
+    }
+
+    private void OnMouseUp()
+    {
+        float delta = Mathf.Abs(0.5f - transform.position.y);
+        if (delta < 0.1f)
+        {
+
         }
     }
 
@@ -45,10 +68,10 @@ public class LatchController : MonoBehaviour
         switch (state)
         {
             case LockStates.LockStateEnum.locked:
-                latchView.SetColor(Color.red);
+                latchView.SetMaterial(lockedMaterial);
                 break;
             case LockStates.LockStateEnum.unlocked:
-                latchView.SetColor(Color.green);
+                latchView.SetMaterial(lockedMaterial);
                 break;
             default:
                 break;

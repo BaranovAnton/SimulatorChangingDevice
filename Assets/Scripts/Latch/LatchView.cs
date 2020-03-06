@@ -5,21 +5,14 @@ using UnityEngine;
 public class LatchView : MonoBehaviour
 {
     private Material material;
-    private Animator animator;
 
     private void Start()
     {
         material = GetComponent<MeshRenderer>().sharedMaterial;
-        animator = GetComponent<Animator>();
     }
 
-    public void SetColor(Color color)
+    public void SetMaterial(Material material)
     {
-        material.color = color;
-    }
-
-    public void PlayAnimation(string triggerName)
-    {
-        animator.SetTrigger(triggerName);
+        this.material = material;
     }
 }
