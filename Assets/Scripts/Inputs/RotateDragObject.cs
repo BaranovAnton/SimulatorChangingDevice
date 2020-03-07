@@ -11,7 +11,7 @@ public class RotateDragObject : DragObject
     {
         var delta = GetMouseAsWorldPoint() + offset;
         currRot = startRot - delta.x * factor + delta.y * factor + delta.z * factor;
-        currRot = Mathf.Clamp(currRot, xConstraints.x, xConstraints.y);
+        currRot = Mathf.Clamp(currRot, zConstraints.x, zConstraints.y);
         transform.parent.eulerAngles = new Vector3(0.0f, 0.0f, currRot);
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class LatchController : MonoBehaviour
 {
     public Material lockedMaterial, unlockedMaterial;
+    public LockConstraints.LockAxis lockAxe;
+    public Vector2 lockAxeValue;
 
     public LatchModel latchModel { get; private set; }
     public LatchView latchView { get; private set; }
@@ -22,7 +24,7 @@ public class LatchController : MonoBehaviour
 
     private void CreateModelAndView()
     {
-        lockPosition = new LockConstraints(LockConstraints.LockAxis.y, -0.9f, 0.5f);
+        lockPosition = new LockConstraints(lockAxe, lockAxeValue.x, lockAxeValue.y);
         latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
         latchModel.OnStateChanged += LatchStateChanged;
         latchView = GetComponentInChildren<LatchView>();
