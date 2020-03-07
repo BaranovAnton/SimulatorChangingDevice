@@ -8,44 +8,24 @@ public class LatchController : MonoBehaviour
 
     public LatchModel latchModel { get; private set; }
     public LatchView latchView { get; private set; }
+    LockConstraints lockPosition;
 
     private DragObject dragObject;
 
-    /*public LatchController(LatchModel latchModel, LatchView latchView)
-    {
-        this.latchModel = latchModel;
-        this.latchView = latchView;
-        this.latchModel.OnStateChanged += LatchStateChanged;
-    }*/
-
     void Start()
     {
-        this.latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked);
-        this.latchView = GetComponentInChildren<LatchView>();
-        this.latchModel.OnStateChanged += LatchStateChanged;
+        // to another method
+        lockPosition = new LockConstraints(LockConstraints.LockAxis.y, -0.9f, 0.5f);
+        latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
+        latchModel.OnStateChanged += LatchStateChanged;
+        latchView = GetComponentInChildren<LatchView>();
 
-        dragObject = this.gameObject.AddComponent<DragObject>();
-        dragObject.SetConstraints(1.0f, 1.0f, -0.9f, 0.5f, 0f, 0f);
+        dragObject = gameObject.AddComponent<DragObject>();
+        dragObject.SetConstraints(Vector2.one, new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue), Vector2.zero);
     }
 
     private void OnMouseDown()
     {
-        // need to add a delay because of the animation
-
-        /*switch(latchModel.State)
-        {
-            case LockStates.LockStateEnum.locked:
-                latchModel.State = LockStates.LockStateEnum.unlocked;
-                // play animation
-                break;
-            case LockStates.LockStateEnum.unlocked:
-                latchModel.State = LockStates.LockStateEnum.locked;
-                // play animation
-                break;
-            default:
-                break;
-        }*/
-
         dragObject.StartDrag();
     }
 
@@ -56,10 +36,20 @@ public class LatchController : MonoBehaviour
 
     private void OnMouseUp()
     {
-        float delta = Mathf.Abs(0.5f - transform.position.y);
-        if (delta < 0.1f)
+        if (Mathf.Abs(lockPosition.unlockedValue - transform.localPosition.y) < latchModel.LockDelta ||
+            Mathf.Abs(lockPosition.lockedValue - transform.localPosition.y) < latchModel.LockDelta)
         {
-
+            switch (latchModel.State)
+            {
+                case LockStates.LockStateEnum.locked:
+                    latchModel.State = LockStates.LockStateEnum.unlocked;
+                    break;
+                case LockStates.LockStateEnum.unlocked:
+                    latchModel.State = LockStates.LockStateEnum.locked;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -71,7 +61,7 @@ public class LatchController : MonoBehaviour
                 latchView.SetMaterial(lockedMaterial);
                 break;
             case LockStates.LockStateEnum.unlocked:
-                latchView.SetMaterial(lockedMaterial);
+                latchView.SetMaterial(unlockedMaterial);
                 break;
             default:
                 break;

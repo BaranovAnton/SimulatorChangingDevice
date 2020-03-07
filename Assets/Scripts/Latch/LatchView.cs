@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class LatchView : MonoBehaviour
 {
-    private Material material;
+    private MeshRenderer meshRenderer;
 
     private void Start()
     {
-        material = GetComponent<MeshRenderer>().sharedMaterial;
+        meshRenderer = GetComponent<MeshRenderer>();
     }
 
     public void SetMaterial(Material material)
     {
-        this.material = material;
+        meshRenderer.sharedMaterial = material;
     }
 }

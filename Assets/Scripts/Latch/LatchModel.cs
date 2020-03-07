@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-
+﻿/// <summary>
+/// Класс модели защёлки
+/// </summary>
 public class LatchModel
 {
     public delegate void AvailableEvent(LockAvailable.LockAvailableEnum available);
@@ -11,12 +12,15 @@ public class LatchModel
     private LockAvailable.LockAvailableEnum _available;     // доступно ли устройство для взаимодействия? (смены состояния)
     private LockStates.LockStateEnum _state;    // состояние устройства? открыто/закрыто
 
-    //private float lockedPosition, unlockedPosition;
+    private LockConstraints lockPosition;  // позиция при которой устройство разблокировано/заблокировано (ось и значение)
+    private float lockDelta = 0.1f;
+    public float LockDelta { get => lockDelta; set => lockDelta = value; }
 
-    public LatchModel(LockAvailable.LockAvailableEnum available, LockStates.LockStateEnum state)
+    public LatchModel(LockAvailable.LockAvailableEnum available, LockStates.LockStateEnum state, LockConstraints lockPosition)
     {
         Available = available;
         State = state;
+        this.lockPosition = lockPosition;
     }
 
     public LockAvailable.LockAvailableEnum Available {
@@ -27,7 +31,7 @@ public class LatchModel
             if (_available != value)
             {
                 _available = value;
-                if (OnStateChanged != null)
+                if (OnAvailableChanged != null)
                 {
                     OnAvailableChanged(value);
                 }
