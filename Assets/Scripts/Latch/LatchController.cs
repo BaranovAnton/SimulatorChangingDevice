@@ -10,47 +10,56 @@ public class LatchController : MonoBehaviour
     public LatchView latchView { get; private set; }
     LockConstraints lockPosition;
 
-    private DragObject dragObject;
+    private MoveDragObject dragObject;
 
     void Start()
     {
-        // to another method
+        CreateModelAndView();
+
+        dragObject = gameObject.AddComponent<MoveDragObject>();
+        dragObject.SetConstraints(Vector2.one, new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue), Vector2.zero);
+    }
+
+    private void CreateModelAndView()
+    {
         lockPosition = new LockConstraints(LockConstraints.LockAxis.y, -0.9f, 0.5f);
         latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
         latchModel.OnStateChanged += LatchStateChanged;
         latchView = GetComponentInChildren<LatchView>();
-
-        dragObject = gameObject.AddComponent<DragObject>();
-        dragObject.SetConstraints(Vector2.one, new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue), Vector2.zero);
     }
 
     private void OnMouseDown()
     {
-        dragObject.StartDrag();
+        //if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
+            dragObject.StartDrag();
     }
 
     private void OnMouseDrag()
     {
-        dragObject.Drag();
+        //if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
+            dragObject.Drag();
     }
 
     private void OnMouseUp()
     {
-        if (Mathf.Abs(lockPosition.unlockedValue - transform.localPosition.y) < latchModel.LockDelta ||
-            Mathf.Abs(lockPosition.lockedValue - transform.localPosition.y) < latchModel.LockDelta)
-        {
-            switch (latchModel.State)
+        /*if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
+        {*/
+            if (Mathf.Abs(lockPosition.unlockedValue - transform.localPosition.y) < latchModel.LockDelta ||
+                Mathf.Abs(lockPosition.lockedValue - transform.localPosition.y) < latchModel.LockDelta)
             {
-                case LockStates.LockStateEnum.locked:
-                    latchModel.State = LockStates.LockStateEnum.unlocked;
-                    break;
-                case LockStates.LockStateEnum.unlocked:
-                    latchModel.State = LockStates.LockStateEnum.locked;
-                    break;
-                default:
-                    break;
+                switch (latchModel.State)
+                {
+                    case LockStates.LockStateEnum.locked:
+                        latchModel.State = LockStates.LockStateEnum.unlocked;
+                        break;
+                    case LockStates.LockStateEnum.unlocked:
+                        latchModel.State = LockStates.LockStateEnum.locked;
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
+        //}
     }
 
     private void LatchStateChanged(LockStates.LockStateEnum state)
