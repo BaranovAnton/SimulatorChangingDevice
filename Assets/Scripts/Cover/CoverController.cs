@@ -17,7 +17,9 @@ public class CoverController : MonoBehaviour
         CreateModelAndView();
 
         dragObject = gameObject.AddComponent<RotateDragObject>();
-        dragObject.SetConstraints(Vector2.zero, Vector2.zero, new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue));
+        dragObject.SetConstraints(Vector2.zero,
+                                  Vector2.zero, 
+                                  new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue));
     }
 
     private void CreateModelAndView()

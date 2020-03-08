@@ -1,26 +1,26 @@
 ﻿/// <summary>
-/// Класс модели крышки
+/// Класс модели кнопки
 /// </summary>
-public class CoverModel
+public class ButtonModel
 {
     public delegate void AvailableEvent(LockAvailable.LockAvailableEnum available);
     public event AvailableEvent OnAvailableChanged;
 
-    public delegate void StateEvent(OpenStates.OpenStateEnum state);
+    public delegate void StateEvent(LockStates.LockStateEnum state);
     public event StateEvent OnStateChanged;
 
-    private LockAvailable.LockAvailableEnum _available;     // доступна ли крышка для взаимодействия? (открытия/закрытия)
-    private OpenStates.OpenStateEnum _state;    // состояние крышки? открыта/закрыта
+    private LockAvailable.LockAvailableEnum _available;     // доступно ли устройство для взаимодействия? (смены состояния)
+    private LockStates.LockStateEnum _state;    // состояние устройства? открыто/закрыто
 
-    private LockConstraints openPosition;  // позиция при которой крышка закрыта/открыта (ось и значение)
-    private float lockDelta = 5f;
+    private LockConstraints lockPosition;  // позиция при которой устройство разблокировано/заблокировано (ось и значение)
+    private float lockDelta = 0.1f;
     public float LockDelta { get => lockDelta; set => lockDelta = value; }
 
-    public CoverModel(LockAvailable.LockAvailableEnum available, OpenStates.OpenStateEnum state, LockConstraints openPosition)
+    public ButtonModel(LockAvailable.LockAvailableEnum available, LockStates.LockStateEnum state, LockConstraints lockPosition)
     {
         Available = available;
         State = state;
-        this.openPosition = openPosition;
+        this.lockPosition = lockPosition;
     }
 
     public LockAvailable.LockAvailableEnum Available {
@@ -39,7 +39,7 @@ public class CoverModel
         }
     }
 
-    public OpenStates.OpenStateEnum State {
+    public LockStates.LockStateEnum State {
         get {
             return _state;
         }

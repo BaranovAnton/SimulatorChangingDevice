@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LatchController : MonoBehaviour
+public class ButtonController : MonoBehaviour
 {
     public Material lockedMaterial, unlockedMaterial;
     public LockConstraints.LockAxis lockAxe;
