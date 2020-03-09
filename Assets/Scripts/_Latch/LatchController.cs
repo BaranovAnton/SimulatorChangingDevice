@@ -17,12 +17,7 @@ public class LatchController : MonoBehaviour
     void Start()
     {
         CreateModelAndView();
-
-        // refactoring: set constraints for all axes
-        dragObject = gameObject.AddComponent<MoveDragObject>();
-        dragObject.SetConstraints(new Vector2(transform.localPosition.x, transform.localPosition.x),
-                                  new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue),
-                                  new Vector2(transform.localPosition.z, transform.localPosition.z));
+        CreateDragObject();
     }
 
     private void CreateModelAndView()
@@ -31,6 +26,30 @@ public class LatchController : MonoBehaviour
         latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
         latchModel.OnStateChanged += LatchStateChanged;
         latchView = GetComponentInChildren<LatchView>();
+    }
+
+    private void CreateDragObject()
+    {
+        dragObject = gameObject.AddComponent<MoveDragObject>();
+
+        Vector2 defaultX = new Vector2(transform.localPosition.x, transform.localPosition.x);
+        Vector2 defaultY = new Vector2(transform.localPosition.y, transform.localPosition.y);
+        Vector2 defaultZ = new Vector2(transform.localPosition.z, transform.localPosition.z);
+
+        switch (lockPosition.axis)
+        {
+            case LockConstraints.LockAxis.x:
+                dragObject.SetConstraints(lockAxeValue, defaultY, defaultZ);
+                break;
+            case LockConstraints.LockAxis.y:
+                dragObject.SetConstraints(defaultX, lockAxeValue, defaultZ);
+                break;
+            case LockConstraints.LockAxis.z:
+                dragObject.SetConstraints(defaultX, defaultY, lockAxeValue);
+                break;
+            default:
+                break;
+        }
     }
 
     private void OnMouseDown()
@@ -49,8 +68,12 @@ public class LatchController : MonoBehaviour
     {
         /*if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
         {*/
-            if (Mathf.Abs(lockPosition.unlockedValue - transform.localPosition.y) < latchModel.LockDelta ||
-                Mathf.Abs(lockPosition.lockedValue - transform.localPosition.y) < latchModel.LockDelta)
+            // Choosing axe value depends of latch moving direction
+            float defaultAxeValue = (lockAxe == LockConstraints.LockAxis.x) ? transform.localPosition.x :
+                                    (lockAxe == LockConstraints.LockAxis.y) ? transform.localPosition.y : transform.localPosition.z;
+
+            if (Mathf.Abs(lockPosition.unlockedValue - defaultAxeValue) < latchModel.LockDelta ||
+                Mathf.Abs(lockPosition.lockedValue - defaultAxeValue) < latchModel.LockDelta)
             {
                 switch (latchModel.State)
                 {

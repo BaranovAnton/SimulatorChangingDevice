@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21007805203729067}
   m_Layer: 0
-  m_Name: PowerButton
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,7 +277,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19e8c37abdffa7848b08e4fafcf651cf, type: 2}
+  - {fileID: 2100000, guid: 3bcc8ba0603838d4f97b17dc7bf56eac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,8 +320,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8008304847332390969}
   - component: {fileID: 4632369198039216886}
-  - component: {fileID: 2339884686959795484}
   - component: {fileID: 2019543787227452842}
+  - component: {fileID: 2339884686959795484}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -358,20 +358,6 @@ CapsuleCollider:
   m_Height: 0.2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &2339884686959795484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4545996936663488134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36d388f590ce3344aa955b8b39f07f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pressedMaterial: {fileID: 2100000, guid: 3bcc8ba0603838d4f97b17dc7bf56eac, type: 2}
-  releasedMaterial: {fileID: 2100000, guid: 19e8c37abdffa7848b08e4fafcf651cf, type: 2}
 --- !u!95 &2019543787227452842
 Animator:
   serializedVersion: 3
@@ -391,6 +377,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2339884686959795484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545996936663488134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d388f590ce3344aa955b8b39f07f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressedMaterial: {fileID: 2100000, guid: 3bcc8ba0603838d4f97b17dc7bf56eac, type: 2}
+  releasedMaterial: {fileID: 2100000, guid: 19e8c37abdffa7848b08e4fafcf651cf, type: 2}
 --- !u!1 &6586351241748443776
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +400,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2869487809013094710}
-  - component: {fileID: 7719857185221562838}
   m_Layer: 0
   m_Name: Basement
   m_TagString: Untagged
@@ -425,16 +424,3 @@ Transform:
   m_Father: {fileID: 21007805203729067}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7719857185221562838
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6586351241748443776}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

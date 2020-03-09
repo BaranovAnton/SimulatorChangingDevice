@@ -15,10 +15,14 @@ public class CoverController : MonoBehaviour
     void Start()
     {
         CreateModelAndView();
+        CreateDragObject();
+    }
 
+    private void CreateDragObject()
+    {
         dragObject = gameObject.AddComponent<RotateDragObject>();
         dragObject.SetConstraints(Vector2.zero,
-                                  Vector2.zero, 
+                                  Vector2.zero,
                                   new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue));
     }
 
@@ -46,8 +50,12 @@ public class CoverController : MonoBehaviour
     {
         /*if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
         {*/
-            if (Mathf.Abs(lockPosition.unlockedValue - transform.localPosition.y) < coverModel.LockDelta ||
-                Mathf.Abs(lockPosition.lockedValue - transform.localPosition.y) < coverModel.LockDelta)
+            // Choosing axe value depends of latch moving direction
+            float defaultAxeValue = (lockAxe == LockConstraints.LockAxis.x) ? transform.localPosition.x :
+                                    (lockAxe == LockConstraints.LockAxis.y) ? transform.localPosition.y : transform.localPosition.z;
+
+            if (Mathf.Abs(lockPosition.unlockedValue - defaultAxeValue) < coverModel.LockDelta ||
+                    Mathf.Abs(lockPosition.lockedValue - defaultAxeValue) < coverModel.LockDelta)
             {
                 switch (coverModel.State)
                 {

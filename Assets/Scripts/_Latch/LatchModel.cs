@@ -1,5 +1,6 @@
 ﻿/// <summary>
-/// Класс модели защёлки
+/// Class describes Latch model
+/// A latch is a type of mechanical fastener that joins two (or more) objects or surfaces while allowing for their regular separation.
 /// </summary>
 public class LatchModel
 {
@@ -9,8 +10,8 @@ public class LatchModel
     public delegate void StateEvent(LockStates.LockStateEnum state);
     public event StateEvent OnStateChanged;
 
-    private LockAvailable.LockAvailableEnum _available;     // доступно ли устройство для взаимодействия? (смены состояния)
-    private LockStates.LockStateEnum _state;    // состояние устройства? открыто/закрыто
+    private LockAvailable.LockAvailableEnum _available;
+    private LockStates.LockStateEnum _state;
 
     private LockConstraints lockPosition;  // позиция при которой устройство разблокировано/заблокировано (ось и значение)
     private float lockDelta = 0.1f;

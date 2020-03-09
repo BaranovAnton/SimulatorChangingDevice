@@ -26,8 +26,8 @@ public class ButtonController : MonoBehaviour
 
     private void OnMouseUp()
     {
-        /*if (buttonModel.Available == LockAvailable.LockAvailableEnum.enamble)
-        {*/
+        //if (buttonModel.Available == LockAvailable.LockAvailableEnum.enamble)
+        //{
             switch (buttonModel.State)
             {
                 case ButtonStates.ButtonStateEnum.pressed:
