@@ -6,21 +6,16 @@ public class ButtonModel
     public delegate void AvailableEvent(LockAvailable.LockAvailableEnum available);
     public event AvailableEvent OnAvailableChanged;
 
-    public delegate void StateEvent(LockStates.LockStateEnum state);
+    public delegate void StateEvent(ButtonStates.ButtonStateEnum state);
     public event StateEvent OnStateChanged;
 
     private LockAvailable.LockAvailableEnum _available;     // доступно ли устройство для взаимодействия? (смены состояния)
-    private LockStates.LockStateEnum _state;    // состояние устройства? открыто/закрыто
+    private ButtonStates.ButtonStateEnum _state;    // состояние устройства? открыто/закрыто
 
-    private LockConstraints lockPosition;  // позиция при которой устройство разблокировано/заблокировано (ось и значение)
-    private float lockDelta = 0.1f;
-    public float LockDelta { get => lockDelta; set => lockDelta = value; }
-
-    public ButtonModel(LockAvailable.LockAvailableEnum available, LockStates.LockStateEnum state, LockConstraints lockPosition)
+    public ButtonModel(LockAvailable.LockAvailableEnum available, ButtonStates.ButtonStateEnum state)
     {
         Available = available;
         State = state;
-        this.lockPosition = lockPosition;
     }
 
     public LockAvailable.LockAvailableEnum Available {
@@ -39,7 +34,7 @@ public class ButtonModel
         }
     }
 
-    public LockStates.LockStateEnum State {
+    public ButtonStates.ButtonStateEnum State {
         get {
             return _state;
         }

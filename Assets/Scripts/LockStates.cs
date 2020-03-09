@@ -12,3 +12,8 @@ public class OpenStates
 {
     public enum OpenStateEnum { opened, closed };
 }
+
+public class ButtonStates
+{
+    public enum ButtonStateEnum { released, pressed };
+}

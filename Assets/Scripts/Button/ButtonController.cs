@@ -4,78 +4,54 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour
 {
-    public Material lockedMaterial, unlockedMaterial;
+    public Material pressedMaterial, releasedMaterial;
     public LockConstraints.LockAxis lockAxe;
     public Vector2 lockAxeValue;
 
-    public LatchModel latchModel { get; private set; }
-    public LatchView latchView { get; private set; }
-    LockConstraints lockPosition;
-
-    private MoveDragObject dragObject;
+    public ButtonModel buttonModel { get; private set; }
+    public ButtonView buttonView { get; private set; }
 
     void Start()
     {
         CreateModelAndView();
-
-        // refactoring: set constraints for all axes
-        dragObject = gameObject.AddComponent<MoveDragObject>();
-        dragObject.SetConstraints(new Vector2(transform.localPosition.x, transform.localPosition.x),
-                                  new Vector2(lockPosition.lockedValue, lockPosition.unlockedValue),
-                                  new Vector2(transform.localPosition.z, transform.localPosition.z));
     }
 
     private void CreateModelAndView()
     {
-        lockPosition = new LockConstraints(lockAxe, lockAxeValue.x, lockAxeValue.y);
-        latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
-        latchModel.OnStateChanged += LatchStateChanged;
-        latchView = GetComponentInChildren<LatchView>();
-    }
-
-    private void OnMouseDown()
-    {
-        //if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
-            dragObject.StartDrag();
-    }
-
-    private void OnMouseDrag()
-    {
-        //if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
-            dragObject.Drag();
+        buttonModel = new ButtonModel(LockAvailable.LockAvailableEnum.disable, ButtonStates.ButtonStateEnum.released);
+        buttonModel.OnStateChanged += ButtonStateChanged;
+        buttonView = GetComponentInChildren<ButtonView>();
     }
 
     private void OnMouseUp()
     {
-        /*if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
+        /*if (buttonModel.Available == LockAvailable.LockAvailableEnum.enamble)
         {*/
-            if (Mathf.Abs(lockPosition.unlockedValue - transform.localPosition.y) < latchModel.LockDelta ||
-                Mathf.Abs(lockPosition.lockedValue - transform.localPosition.y) < latchModel.LockDelta)
+            switch (buttonModel.State)
             {
-                switch (latchModel.State)
-                {
-                    case LockStates.LockStateEnum.locked:
-                        latchModel.State = LockStates.LockStateEnum.unlocked;
-                        break;
-                    case LockStates.LockStateEnum.unlocked:
-                        latchModel.State = LockStates.LockStateEnum.locked;
-                        break;
-                    default:
-                        break;
-                }
+                case ButtonStates.ButtonStateEnum.pressed:
+                    buttonModel.State = ButtonStates.ButtonStateEnum.released;
+                    // play animation
+                    break;
+                case ButtonStates.ButtonStateEnum.released:
+                    buttonModel.State = ButtonStates.ButtonStateEnum.pressed;
+                    // play animation
+                    break;
+                default:
+                    break;
             }
         //}
     }
 
-    private void LatchStateChanged(LockStates.LockStateEnum state)
+    private void ButtonStateChanged(ButtonStates.ButtonStateEnum state)
     {
         switch (state)
         {
-            case LockStates.LockStateEnum.locked:
-                latchView.SetMaterial(lockedMaterial);
+            case ButtonStates.ButtonStateEnum.pressed:
+                buttonView.SetMaterial(pressedMaterial);
                 break;
-            case LockStates.LockStateEnum.unlocked:
-                latchView.SetMaterial(unlockedMaterial);
+            case ButtonStates.ButtonStateEnum.released:
+                buttonView.SetMaterial(releasedMaterial);
                 break;
             default:
                 break;
