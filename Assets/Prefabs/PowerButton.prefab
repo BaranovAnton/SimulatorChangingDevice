@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 4710482359726059248}
   - component: {fileID: 2976323044883948377}
   - component: {fileID: 8466844829803193965}
+  - component: {fileID: 3010174161299737738}
   m_Layer: 0
   m_Name: ButtonBody
   m_TagString: Untagged
@@ -276,7 +277,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1d4f5e3214df7bf42afeb1aaae55e851, type: 2}
+  - {fileID: 2100000, guid: 19e8c37abdffa7848b08e4fafcf651cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -297,6 +298,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3010174161299737738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338421298719936819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce55e1809a951e34bbc7f2a8737139b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4545996936663488134
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +320,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8008304847332390969}
   - component: {fileID: 4632369198039216886}
+  - component: {fileID: 2339884686959795484}
+  - component: {fileID: 2019543787227452842}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -343,6 +358,39 @@ CapsuleCollider:
   m_Height: 0.2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &2339884686959795484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545996936663488134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d388f590ce3344aa955b8b39f07f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressedMaterial: {fileID: 2100000, guid: 3bcc8ba0603838d4f97b17dc7bf56eac, type: 2}
+  releasedMaterial: {fileID: 2100000, guid: 19e8c37abdffa7848b08e4fafcf651cf, type: 2}
+--- !u!95 &2019543787227452842
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545996936663488134}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 30e80e28ca2968f4084e17d0588dd2a7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6586351241748443776
 GameObject:
   m_ObjectHideFlags: 0

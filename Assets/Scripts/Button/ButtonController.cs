@@ -5,15 +5,16 @@ using UnityEngine;
 public class ButtonController : MonoBehaviour
 {
     public Material pressedMaterial, releasedMaterial;
-    public LockConstraints.LockAxis lockAxe;
-    public Vector2 lockAxeValue;
 
     public ButtonModel buttonModel { get; private set; }
     public ButtonView buttonView { get; private set; }
 
+    private Animator buttonAnimator;
+
     void Start()
     {
         CreateModelAndView();
+        buttonAnimator = GetComponent<Animator>();
     }
 
     private void CreateModelAndView()
@@ -31,11 +32,11 @@ public class ButtonController : MonoBehaviour
             {
                 case ButtonStates.ButtonStateEnum.pressed:
                     buttonModel.State = ButtonStates.ButtonStateEnum.released;
-                    // play animation
+                    buttonAnimator.SetTrigger("Pressed");
                     break;
                 case ButtonStates.ButtonStateEnum.released:
                     buttonModel.State = ButtonStates.ButtonStateEnum.pressed;
-                    // play animation
+                    buttonAnimator.SetTrigger("Pressed");
                     break;
                 default:
                     break;
