@@ -50,9 +50,9 @@ public class CoverController : MonoBehaviour
     {
         /*if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
         {*/
-            // Choosing axe value depends of latch moving direction
-            float defaultAxeValue = (lockAxe == LockConstraints.LockAxis.x) ? transform.localPosition.x :
-                                    (lockAxe == LockConstraints.LockAxis.y) ? transform.localPosition.y : transform.localPosition.z;
+            // Current z-axe value
+            float defaultAxeValue = (transform.parent.eulerAngles.z > Mathf.Abs(lockPosition.unlockedValue - lockPosition.lockedValue))? 
+                                        transform.parent.eulerAngles.z - 360 : transform.parent.eulerAngles.z;
 
             if (Mathf.Abs(lockPosition.unlockedValue - defaultAxeValue) < coverModel.LockDelta ||
                     Mathf.Abs(lockPosition.lockedValue - defaultAxeValue) < coverModel.LockDelta)
@@ -60,10 +60,12 @@ public class CoverController : MonoBehaviour
                 switch (coverModel.State)
                 {
                     case OpenStates.OpenStateEnum.closed:
-                        coverModel.State = OpenStates.OpenStateEnum.opened;
+                        if (Mathf.Abs(lockPosition.unlockedValue - defaultAxeValue) < coverModel.LockDelta)
+                            coverModel.State = OpenStates.OpenStateEnum.opened;
                         break;
                     case OpenStates.OpenStateEnum.opened:
-                        coverModel.State = OpenStates.OpenStateEnum.closed;
+                        if (Mathf.Abs(lockPosition.lockedValue - defaultAxeValue) < coverModel.LockDelta)
+                            coverModel.State = OpenStates.OpenStateEnum.closed;
                         break;
                     default:
                         break;
