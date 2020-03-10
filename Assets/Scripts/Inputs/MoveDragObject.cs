@@ -5,7 +5,7 @@ public class MoveDragObject : DragObject
     public override void Drag()
     {
         transform.position = GetMouseAsWorldPoint() + offset;
-        CheckConstraints();
+        if (UseConstraints) CheckConstraints();
     }
 
     private void CheckConstraints()

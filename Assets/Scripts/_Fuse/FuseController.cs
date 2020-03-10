@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LatchController : MonoBehaviour
+public class FuseController : MonoBehaviour
 {
-    public Material lockedMaterial, unlockedMaterial;
-    public LockConstraints.LockAxis lockAxe;
-    public Vector2 lockAxeValue;
+    public Material rightMaterial, wrongMaterial;
 
-    public LatchModel latchModel { get; private set; }
-    public LatchView latchView { get; private set; }
-    LockConstraints lockPosition;
+    public FuseModel fuseModel { get; private set; }
+    public FuseView fuseView { get; private set; }
 
     private MoveDragObject dragObject;
+    private Transform fuseParent;
+    private bool enterToFuseHolder;
 
     void Start()
     {
@@ -22,33 +21,32 @@ public class LatchController : MonoBehaviour
 
     private void CreateModelAndView()
     {
-        lockPosition = new LockConstraints(lockAxe, lockAxeValue.x, lockAxeValue.y);
-        latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
-        latchModel.OnStateChanged += LatchStateChanged;
-        latchView = GetComponentInChildren<LatchView>();
+        fuseModel = new FuseModel(LockAvailable.LockAvailableEnum.disable, PositionStates.PositionStateEnum.wrongPos, WorkingStates.WorkingStateEnum.broken);
+        fuseModel.OnPositionChanged += LatchStateChanged;
+        fuseView = GetComponentInChildren<FuseView>();
     }
 
     private void CreateDragObject()
     {
         dragObject = gameObject.AddComponent<MoveDragObject>();
+        dragObject.UseConstraints = false;
+    }
 
-        Vector2 defaultX = new Vector2(transform.localPosition.x, transform.localPosition.x);
-        Vector2 defaultY = new Vector2(transform.localPosition.y, transform.localPosition.y);
-        Vector2 defaultZ = new Vector2(transform.localPosition.z, transform.localPosition.z);
-
-        switch (lockPosition.axis)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "FuseHolder")
         {
-            case LockConstraints.LockAxis.x:
-                dragObject.SetConstraints(lockAxeValue, defaultY, defaultZ);
-                break;
-            case LockConstraints.LockAxis.y:
-                dragObject.SetConstraints(defaultX, lockAxeValue, defaultZ);
-                break;
-            case LockConstraints.LockAxis.z:
-                dragObject.SetConstraints(defaultX, defaultY, lockAxeValue);
-                break;
-            default:
-                break;
+            enterToFuseHolder = true;
+            fuseParent = other.transform;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "FuseHolder")
+        {
+            enterToFuseHolder = false;
+            fuseParent = null;
         }
     }
 
@@ -68,39 +66,30 @@ public class LatchController : MonoBehaviour
     {
         /*if (latchModel.Available == LockAvailable.LockAvailableEnum.enamble)
         {*/
-            // Choosing axe value depends of latch moving direction
-            float defaultAxeValue = (lockAxe == LockConstraints.LockAxis.x) ? transform.localPosition.x :
-                                    (lockAxe == LockConstraints.LockAxis.y) ? transform.localPosition.y : transform.localPosition.z;
-
-            if (Mathf.Abs(lockPosition.unlockedValue - defaultAxeValue) < latchModel.LockDelta ||
-                Mathf.Abs(lockPosition.lockedValue - defaultAxeValue) < latchModel.LockDelta)
+            if (enterToFuseHolder)
             {
-                switch (latchModel.State)
-                {
-                    case LockStates.LockStateEnum.locked:
-                        if (Mathf.Abs(lockPosition.unlockedValue - defaultAxeValue) < latchModel.LockDelta)
-                            latchModel.State = LockStates.LockStateEnum.unlocked;
-                        break;
-                    case LockStates.LockStateEnum.unlocked:
-                        if (Mathf.Abs(lockPosition.lockedValue - defaultAxeValue) < latchModel.LockDelta)
-                            latchModel.State = LockStates.LockStateEnum.locked;
-                        break;
-                    default:
-                        break;
-                }
+                transform.parent = fuseParent;
+                transform.localPosition = Vector3.zero;
+
+                fuseModel.Place = PositionStates.PositionStateEnum.rightPos;
+            } else
+            {
+                transform.parent = null;
+
+                fuseModel.Place = PositionStates.PositionStateEnum.wrongPos;
             }
         //}
     }
 
-    private void LatchStateChanged(LockStates.LockStateEnum state)
+    private void LatchStateChanged(PositionStates.PositionStateEnum state)
     {
         switch (state)
         {
-            case LockStates.LockStateEnum.locked:
-                latchView.SetMaterial(lockedMaterial);
+            case PositionStates.PositionStateEnum.rightPos:
+                fuseView.SetMaterial(rightMaterial);
                 break;
-            case LockStates.LockStateEnum.unlocked:
-                latchView.SetMaterial(unlockedMaterial);
+            case PositionStates.PositionStateEnum.wrongPos:
+                fuseView.SetMaterial(wrongMaterial);
                 break;
             default:
                 break;

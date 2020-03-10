@@ -6,6 +6,9 @@ public abstract class DragObject : MonoBehaviour
     protected float zPosition;
     protected Vector2 xConstraints, yConstraints, zConstraints;
 
+    private bool useConstraints = true;
+    public bool UseConstraints { get => useConstraints; set => useConstraints = value; }
+
     public void SetConstraints(Vector2 x, Vector2 y, Vector2 z)
     {
         xConstraints = x;

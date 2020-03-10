@@ -1,27 +1,27 @@
 ﻿/// <summary>
-/// Class describes Latch model
-/// A latch is a type of mechanical fastener that joins two (or more) objects or surfaces while allowing for their regular separation.
+/// Class describes Fuse model
+/// A fuse is an electrical safety device that operates to provide overcurrent protection of an electrical circuit
 /// </summary>
-public class LatchModel
+public class FuseModel
 {
     public delegate void AvailableEvent(LockAvailable.LockAvailableEnum available);
     public event AvailableEvent OnAvailableChanged;
 
-    public delegate void StateEvent(LockStates.LockStateEnum state);
-    public event StateEvent OnStateChanged;
+    public delegate void PositionEvent(PositionStates.PositionStateEnum place);
+    public event PositionEvent OnPositionChanged;
+
+    public delegate void WorkingEvent(WorkingStates.WorkingStateEnum state);
+    public event WorkingEvent OnWorkingChanged;
 
     private LockAvailable.LockAvailableEnum _available;
-    private LockStates.LockStateEnum _state;
+    private PositionStates.PositionStateEnum _place;
+    private WorkingStates.WorkingStateEnum _state;
 
-    private LockConstraints lockPosition;  // позиция при которой устройство разблокировано/заблокировано (ось и значение)
-    private float lockDelta = 0.1f;
-    public float LockDelta { get => lockDelta; set => lockDelta = value; }
-
-    public LatchModel(LockAvailable.LockAvailableEnum available, LockStates.LockStateEnum state, LockConstraints lockPosition)
+    public FuseModel(LockAvailable.LockAvailableEnum available, PositionStates.PositionStateEnum place, WorkingStates.WorkingStateEnum state)
     {
         Available = available;
+        Place = place;
         State = state;
-        this.lockPosition = lockPosition;
     }
 
     public LockAvailable.LockAvailableEnum Available {
@@ -40,7 +40,23 @@ public class LatchModel
         }
     }
 
-    public LockStates.LockStateEnum State {
+    public PositionStates.PositionStateEnum Place {
+        get {
+            return _place;
+        }
+        set {
+            if (_place != value)
+            {
+                _place = value;
+                if (OnPositionChanged != null)
+                {
+                    OnPositionChanged(value);
+                }
+            }
+        }
+    }
+
+    public WorkingStates.WorkingStateEnum State {
         get {
             return _state;
         }
@@ -48,9 +64,9 @@ public class LatchModel
             if (_state != value)
             {
                 _state = value;
-                if (OnStateChanged != null)
+                if (OnWorkingChanged != null)
                 {
-                    OnStateChanged(value);
+                    OnWorkingChanged(value);
                 }
             }
         }

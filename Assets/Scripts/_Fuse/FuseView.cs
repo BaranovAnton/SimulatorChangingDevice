@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LatchView : MonoBehaviour
+public class FuseView : MonoBehaviour
 {
     private MeshRenderer meshRenderer;
 

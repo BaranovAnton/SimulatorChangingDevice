@@ -29,3 +29,19 @@ public class ButtonStates
 {
     public enum ButtonStateEnum { released, pressed };
 }
+
+/// <summary>
+/// Fuse (or similar device) in right or wrong place
+/// </summary>
+public class PositionStates
+{
+    public enum PositionStateEnum { rightPos, wrongPos };
+}
+
+/// <summary>
+/// Fuse (or similar device) working or doesn't
+/// </summary>
+public class WorkingStates
+{
+    public enum WorkingStateEnum { working, broken };
+}
