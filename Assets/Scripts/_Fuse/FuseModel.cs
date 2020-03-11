@@ -2,42 +2,23 @@
 /// Class describes Fuse model
 /// A fuse is an electrical safety device that operates to provide overcurrent protection of an electrical circuit
 /// </summary>
-public class FuseModel
+public class FuseModel : DeviceModel
 {
-    public delegate void AvailableEvent(LockAvailable.LockAvailableEnum available);
-    public event AvailableEvent OnAvailableChanged;
-
     public delegate void PositionEvent(PositionStates.PositionStateEnum place);
     public event PositionEvent OnPositionChanged;
 
     public delegate void WorkingEvent(WorkingStates.WorkingStateEnum state);
     public event WorkingEvent OnWorkingChanged;
 
-    private LockAvailable.LockAvailableEnum _available;
     private PositionStates.PositionStateEnum _place;
     private WorkingStates.WorkingStateEnum _state;
 
-    public FuseModel(LockAvailable.LockAvailableEnum available, PositionStates.PositionStateEnum place, WorkingStates.WorkingStateEnum state)
+    public FuseModel(int id, LockAvailable.LockAvailableEnum available, PositionStates.PositionStateEnum place, WorkingStates.WorkingStateEnum state)
     {
+        DeviceID = id;
         Available = available;
         Place = place;
         State = state;
-    }
-
-    public LockAvailable.LockAvailableEnum Available {
-        get {
-            return _available;
-        }
-        set {
-            if (_available != value)
-            {
-                _available = value;
-                if (OnAvailableChanged != null)
-                {
-                    OnAvailableChanged(value);
-                }
-            }
-        }
     }
 
     public PositionStates.PositionStateEnum Place {

@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuseController : MonoBehaviour
+public class FuseController : DeviceController
 {
+    public int id;
     public Material rightMaterial, wrongMaterial;
 
     public FuseModel fuseModel { get; private set; }
     public FuseView fuseView { get; private set; }
 
+    public override event ModelStateEvent OnModelStateChanged;
+
     private MoveDragObject dragObject;
-    private Transform fuseParent;
+    private Transform fuseParent, deviceManager;
     private bool enterToFuseHolder;
 
     void Start()
     {
         CreateModelAndView();
         CreateDragObject();
+
+        deviceManager = GameObject.FindGameObjectWithTag("DeviceManager").transform;
     }
 
     private void CreateModelAndView()
     {
-        fuseModel = new FuseModel(LockAvailable.LockAvailableEnum.disable, PositionStates.PositionStateEnum.wrongPos, WorkingStates.WorkingStateEnum.broken);
-        fuseModel.OnPositionChanged += LatchStateChanged;
+        fuseModel = new FuseModel(id, LockAvailable.LockAvailableEnum.disable, PositionStates.PositionStateEnum.wrongPos, WorkingStates.WorkingStateEnum.broken);
+        deviceModel = fuseModel;
+        fuseModel.OnPositionChanged += FuseStateChanged;
         fuseView = GetComponentInChildren<FuseView>();
     }
 
@@ -46,7 +52,7 @@ public class FuseController : MonoBehaviour
         if (other.name == "FuseHolder")
         {
             enterToFuseHolder = false;
-            fuseParent = null;
+            fuseParent = deviceManager;
         }
     }
 
@@ -81,7 +87,7 @@ public class FuseController : MonoBehaviour
         //}
     }
 
-    private void LatchStateChanged(PositionStates.PositionStateEnum state)
+    private void FuseStateChanged(PositionStates.PositionStateEnum state)
     {
         switch (state)
         {
@@ -93,6 +99,12 @@ public class FuseController : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+
+        if (OnModelStateChanged != null)
+        {
+            OnModelStateChanged(fuseModel);
         }
     }
 }

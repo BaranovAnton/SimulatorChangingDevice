@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonController : MonoBehaviour
+public class ButtonController : DeviceController
 {
+    public int id;
     public Material pressedMaterial, releasedMaterial;
 
     public ButtonModel buttonModel { get; private set; }
     public ButtonView buttonView { get; private set; }
+
+    public override event ModelStateEvent OnModelStateChanged;
 
     private Animator buttonAnimator;
 
@@ -19,7 +22,8 @@ public class ButtonController : MonoBehaviour
 
     private void CreateModelAndView()
     {
-        buttonModel = new ButtonModel(LockAvailable.LockAvailableEnum.disable, ButtonStates.ButtonStateEnum.released);
+        buttonModel = new ButtonModel(id, LockAvailable.LockAvailableEnum.disable, ButtonStates.ButtonStateEnum.released);
+        deviceModel = buttonModel;
         buttonModel.OnStateChanged += ButtonStateChanged;
         buttonView = GetComponentInChildren<ButtonView>();
     }
@@ -56,6 +60,11 @@ public class ButtonController : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        if (OnModelStateChanged != null)
+        {
+            OnModelStateChanged(buttonModel);
         }
     }
 }

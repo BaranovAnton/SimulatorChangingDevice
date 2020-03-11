@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LatchController : MonoBehaviour
+public class LatchController : DeviceController
 {
+    public int id;
     public Material lockedMaterial, unlockedMaterial;
     public LockConstraints.LockAxis lockAxe;
     public Vector2 lockAxeValue;
 
     public LatchModel latchModel { get; private set; }
     public LatchView latchView { get; private set; }
-    LockConstraints lockPosition;
+    private LockConstraints lockPosition;
+
+    public override event ModelStateEvent OnModelStateChanged;
 
     private MoveDragObject dragObject;
 
@@ -23,8 +26,10 @@ public class LatchController : MonoBehaviour
     private void CreateModelAndView()
     {
         lockPosition = new LockConstraints(lockAxe, lockAxeValue.x, lockAxeValue.y);
-        latchModel = new LatchModel(LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
+        latchModel = new LatchModel(id, LockAvailable.LockAvailableEnum.disable, LockStates.LockStateEnum.locked, lockPosition);
+        deviceModel = latchModel;
         latchModel.OnStateChanged += LatchStateChanged;
+
         latchView = GetComponentInChildren<LatchView>();
     }
 
@@ -104,6 +109,11 @@ public class LatchController : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        if (OnModelStateChanged != null)
+        {
+            OnModelStateChanged(latchModel);
         }
     }
 }

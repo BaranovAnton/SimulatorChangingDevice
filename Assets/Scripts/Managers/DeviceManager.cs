@@ -1,37 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DeviceManager : MonoBehaviour
 {
-    private List<Device> devices;
+    public static DeviceManager instance = null;    // Singleton
+
+    public int tutorialNumber;
+
+    private List<Tutorial> tutorials;
 
     void Start()
-    {
-        
+    {  
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        InitializeManager();
     }
 
-    private void InitDevices()
+    private void InitializeManager()
     {
-
+        tutorials = GetComponent<Tutorials>().tutorials;
     }
-
-    public void AddDevice(Device device)
-    {
-        devices.Add(device);
-    }
-}
-
-public abstract class Device : MonoBehaviour
-{
-    private GameObject devicePrefab;
-    public GameObject DevicePrefab { get; set; }
-}
-
-public class Fuse : Device
-{
-    public enum FuseTypes { fuseV1, fuseV2 }
-    private FuseTypes fuseType;
-
-
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-public class CoverController : MonoBehaviour
+public class CoverController : DeviceController
 {
+    public int id;
     public Material lockedMaterial, unlockedMaterial;
     public LockConstraints.LockAxis lockAxe;
     public Vector2 lockAxeValue;
@@ -9,6 +10,8 @@ public class CoverController : MonoBehaviour
     public CoverModel coverModel { get; private set; }
     public CoverView coverView { get; private set; }
     LockConstraints lockPosition;
+
+    public override event ModelStateEvent OnModelStateChanged;
 
     private RotateDragObject dragObject;
 
@@ -29,7 +32,8 @@ public class CoverController : MonoBehaviour
     private void CreateModelAndView()
     {
         lockPosition = new LockConstraints(lockAxe, lockAxeValue.x, lockAxeValue.y);
-        coverModel = new CoverModel(LockAvailable.LockAvailableEnum.disable, OpenStates.OpenStateEnum.closed, lockPosition);
+        coverModel = new CoverModel(id, LockAvailable.LockAvailableEnum.disable, OpenStates.OpenStateEnum.closed, lockPosition);
+        deviceModel = coverModel;
         coverModel.OnStateChanged += LatchStateChanged;
         coverView = GetComponentInChildren<CoverView>();
     }
@@ -86,6 +90,11 @@ public class CoverController : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        if (OnModelStateChanged != null)
+        {
+            OnModelStateChanged(coverModel);
         }
     }
 }
