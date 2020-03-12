@@ -307,11 +307,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 638693528}
-  - component: {fileID: 638693529}
   - component: {fileID: 638693530}
   m_Layer: 0
   m_Name: Devices
-  m_TagString: DeviceManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -333,19 +332,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &638693529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 638693527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b79f4b9411684224eadbb5fab84c15f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorialNumber: 0
 --- !u!114 &638693530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorials:
   - tutorialName: Change Fuse Version 1
-    tutorialNumber: 1
+    tutorialNumber: 0
     devices:
     - deviceName: Power button
       deviceOrder: 0
@@ -372,7 +358,7 @@ MonoBehaviour:
       deviceOrder: 2
       deviceController: {fileID: 981543191347440718}
   - tutorialName: Change Fuse Version 2
-    tutorialNumber: 2
+    tutorialNumber: 1
     devices:
     - deviceName: Power button
       deviceOrder: 0

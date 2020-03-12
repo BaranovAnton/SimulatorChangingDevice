@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorials : MonoBehaviour
+public class TutorialDevice : MonoBehaviour
 {
-    private const int tutorialNumber = 1;
+    private const int tutorialNumber = 0;
 
     public List<Tutorial> tutorials;
 
-    private List<int> rightDeviceOrder = new List<int>();
+    private DeviceModel currentDeviceModel;
+    private int currentDeviceNumber = 0;
 
     private void Start()
     {
@@ -20,9 +21,6 @@ public class Tutorials : MonoBehaviour
                 // For all device controllers in tutorial
                 foreach (Device device in tutorial.devices)
                 {
-                    if (!rightDeviceOrder.Contains(device.deviceOrder))
-                        rightDeviceOrder.Add(device.deviceOrder);
-
                     device.deviceController.OnModelStateChanged += CheckUserActionInTutorial;
                 }
             }
@@ -32,32 +30,41 @@ public class Tutorials : MonoBehaviour
     // подписать метод на изменения состояния всех устройств в выбранном туториале
     private void CheckUserActionInTutorial(DeviceModel deviceModel)
     {
-        bool correct = false;
+        if (tutorials[tutorialNumber].devices.Count >= currentDeviceNumber)
+            return;
 
-        // проверка
-        //if (deviceModel)
-
-        if (correct)
+        // проверяем текущий верхний элемент из стэка туториала
+        currentDeviceModel = tutorials[tutorialNumber].devices[currentDeviceNumber].deviceController.deviceModel;
+        if (currentDeviceModel == deviceModel)
         {
             Debug.Log("Right action for tutorial");
             RightTutorialOrder();
+
+            currentDeviceNumber++;
         } else
         {
             Debug.Log("Wrong action for tutorial");
             WrongTutorialOrder();
         }
+
+        /*if (deviceModel is ButtonModel)
+        {
+            ButtonModel buttonModel = (ButtonModel)deviceModel;
+            if (buttonModel.State == ButtonStates.ButtonStateEnum.pressed)
+            {
+                print("нажата!");
+            }
+        }*/
     }
 
     private void RightTutorialOrder()
     {
-        // to the next step
-
+        
     }
 
     private void WrongTutorialOrder()
     {
-        // show menu: step back? or again?
-
+        
     }
 }
 

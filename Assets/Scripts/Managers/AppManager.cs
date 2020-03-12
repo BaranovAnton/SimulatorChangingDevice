@@ -4,9 +4,22 @@ using UnityEngine;
 
 public class AppManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public static AppManager instance = null;    // Singleton
+
+    private TutorialDevice tutorialDevice;
+
     void Start()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        tutorialDevice = GetComponent<TutorialDevice>();
+    }
+
+    public void LaunchTutorial(int tutorialNumber)
+    {
+        tutorialDevice.
     }
 }
