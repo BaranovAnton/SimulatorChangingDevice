@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Button class controller: device logic and connection model-view
+/// </summary>
 public class ButtonController : DeviceController
 {
     public int id;

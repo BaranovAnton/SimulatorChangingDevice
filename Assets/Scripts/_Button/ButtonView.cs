@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Class for Button view
+/// </summary>
 public class ButtonView : MonoBehaviour
 {
     private MeshRenderer meshRenderer;

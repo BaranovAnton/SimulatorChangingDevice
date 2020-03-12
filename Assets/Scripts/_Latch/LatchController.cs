@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Latch class controller: device logic and connection model-view
+/// </summary>
 public class LatchController : DeviceController
 {
     public int id;

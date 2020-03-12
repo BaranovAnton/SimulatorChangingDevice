@@ -1,8 +1,14 @@
-﻿public abstract class DeviceModel
+﻿/// <summary>
+/// Base class for all device models
+/// </summary>
+public abstract class DeviceModel
 {
+    // draft, are not used yet
     private int deviceID;
     public int DeviceID { get => deviceID; set => deviceID = value; }
 
+    // draft, are not used yet
+    // if device available - user can interaction with this device
     public delegate void AvailableEvent(LockAvailable.LockAvailableEnum available);
     public event AvailableEvent OnAvailableChanged;
 

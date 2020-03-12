@@ -1,6 +1,5 @@
 ﻿/// <summary>
-/// Class describes Fuse model
-/// A fuse is an electrical safety device that operates to provide overcurrent protection of an electrical circuit
+/// Class for Fuse model
 /// </summary>
 public class FuseModel : DeviceModel
 {
@@ -13,6 +12,7 @@ public class FuseModel : DeviceModel
     private PositionStates.PositionStateEnum _place;
     private WorkingStates.WorkingStateEnum _state;
 
+    // fuse model constructor
     public FuseModel(int id, LockAvailable.LockAvailableEnum available, PositionStates.PositionStateEnum place, WorkingStates.WorkingStateEnum state)
     {
         DeviceID = id;

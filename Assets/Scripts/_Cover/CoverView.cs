@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Class for Cover view
+/// </summary>
 public class CoverView : MonoBehaviour
 {
     private MeshRenderer meshRenderer;

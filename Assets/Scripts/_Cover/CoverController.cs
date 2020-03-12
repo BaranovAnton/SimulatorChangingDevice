@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Cover class controller: device logic and connection model-view
+/// </summary>
 public class CoverController : DeviceController
 {
     public int id;

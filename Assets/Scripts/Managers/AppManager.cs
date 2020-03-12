@@ -23,19 +23,26 @@ public class AppManager : MonoBehaviour
 
         tutorialDevice = GetComponent<TutorialDevice>();
         finishScreen.SetActive(false);
+
+        // disable all devices
+        for (int i=0; i<transform.childCount; i++)
+            transform.GetChild(i).gameObject.SetActive(false);
     }
 
     public void StartTutorial(int tutorialNumber)
     {
         Debug.Log("Start tutorial #" + tutorialNumber);
         tutorialDevice.TutorialNumber = tutorialNumber;
+        tutorialDevice.InitTutorialDevice();
         startScreen.SetActive(false);
+        // TODO: timer start
     }
 
     public void FinishTutorial()
     {
         Debug.Log("Finish tutorial");
         finishScreen.SetActive(true);
+        // TODO: timer stop
     }
 
     public void ReloadTutorial()

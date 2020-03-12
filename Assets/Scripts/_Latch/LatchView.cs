@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Class for Latch view
+/// </summary>
 public class LatchView : MonoBehaviour
 {
     private MeshRenderer meshRenderer;

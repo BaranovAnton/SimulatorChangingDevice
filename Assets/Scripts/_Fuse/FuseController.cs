@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Fuse class controller: device logic and connection model-view
+/// </summary>
 public class FuseController : DeviceController
 {
     public int id;
@@ -11,6 +14,7 @@ public class FuseController : DeviceController
     public FuseModel fuseModel { get; private set; }
     public FuseView fuseView { get; private set; }
 
+    // Event when model changed
     public override event ModelStateEvent OnModelStateChanged;
 
     private MoveDragObject dragObject;
@@ -39,6 +43,7 @@ public class FuseController : DeviceController
         dragObject.UseConstraints = false;
     }
 
+    // intersection fuse and fuse-holder
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "FuseHolder")
@@ -48,6 +53,7 @@ public class FuseController : DeviceController
         }
     }
 
+    // intersection fuse and fuse-holder
     private void OnTriggerExit(Collider other)
     {
         if (other.name == "FuseHolder")

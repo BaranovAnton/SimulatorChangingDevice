@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Class for objects which are rotating when draggable
+/// </summary>
 public class RotateDragObject : DragObject
 {
-    private const float factor = 15.0f;
+    private const float factor = 15.0f; // rotation sensetivity (TODO: need to setting)
     private float currRot;
 
     public override void Drag()

@@ -1,14 +1,14 @@
 ﻿/// <summary>
-/// Класс модели крышки
+/// Class for Cover model
 /// </summary>
 public class CoverModel : DeviceModel
 {
     public delegate void StateEvent(OpenStates.OpenStateEnum state);
     public event StateEvent OnStateChanged;
 
-    private OpenStates.OpenStateEnum _state;    // состояние крышки? открыта/закрыта
+    private OpenStates.OpenStateEnum _state;    // cover state
 
-    private LockConstraints openPosition;  // позиция при которой крышка закрыта/открыта (ось и значение)
+    private LockConstraints openPosition;  // position when cover is opened/closed
     private float lockDelta = 5f;
     public float LockDelta { get => lockDelta; set => lockDelta = value; }
 

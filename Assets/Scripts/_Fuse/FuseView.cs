@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Class for Fuse view
+/// </summary>
 public class FuseView : MonoBehaviour
 {
     private MeshRenderer meshRenderer;

@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Класс модели кнопки
+/// Class for Button model
 /// </summary>
 public class ButtonModel : DeviceModel
 {

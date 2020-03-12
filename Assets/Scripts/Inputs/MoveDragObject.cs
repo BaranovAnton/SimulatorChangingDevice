@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Class for objects which are only draggable
+/// </summary>
 public class MoveDragObject : DragObject 
 {
     public override void Drag()
