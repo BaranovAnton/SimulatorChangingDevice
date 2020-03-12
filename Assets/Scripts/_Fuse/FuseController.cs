@@ -6,6 +6,7 @@ public class FuseController : DeviceController
 {
     public int id;
     public Material rightMaterial, wrongMaterial;
+    public PositionStates.PositionStateEnum currentStatePosition;
 
     public FuseModel fuseModel { get; private set; }
     public FuseView fuseView { get; private set; }
@@ -13,7 +14,7 @@ public class FuseController : DeviceController
     public override event ModelStateEvent OnModelStateChanged;
 
     private MoveDragObject dragObject;
-    private Transform fuseParent, deviceManager;
+    private Transform fuseParent, appManager;
     private bool enterToFuseHolder;
 
     void Start()
@@ -21,12 +22,12 @@ public class FuseController : DeviceController
         CreateModelAndView();
         CreateDragObject();
 
-        deviceManager = GameObject.FindGameObjectWithTag("DeviceManager").transform;
+        appManager = GameObject.FindGameObjectWithTag("AppManager").transform;
     }
 
     private void CreateModelAndView()
     {
-        fuseModel = new FuseModel(id, LockAvailable.LockAvailableEnum.disable, PositionStates.PositionStateEnum.wrongPos, WorkingStates.WorkingStateEnum.broken);
+        fuseModel = new FuseModel(id, LockAvailable.LockAvailableEnum.disable, currentStatePosition, WorkingStates.WorkingStateEnum.broken);
         deviceModel = fuseModel;
         fuseModel.OnPositionChanged += FuseStateChanged;
         fuseView = GetComponentInChildren<FuseView>();
@@ -52,7 +53,7 @@ public class FuseController : DeviceController
         if (other.name == "FuseHolder")
         {
             enterToFuseHolder = false;
-            fuseParent = deviceManager;
+            fuseParent = appManager;
         }
     }
 
@@ -100,7 +101,6 @@ public class FuseController : DeviceController
             default:
                 break;
         }
-
 
         if (OnModelStateChanged != null)
         {

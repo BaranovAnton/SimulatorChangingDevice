@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class contains tutorials and checks user actions
+/// </summary>
 public class TutorialDevice : MonoBehaviour
 {
-    private const int tutorialNumber = 0;
-
     public List<Tutorial> tutorials;
+
+    private int tutorialNumber;
+    public int TutorialNumber { get => tutorialNumber; set => tutorialNumber = value; }  
 
     private DeviceModel currentDeviceModel;
     private int currentDeviceNumber = 0;
@@ -15,38 +19,55 @@ public class TutorialDevice : MonoBehaviour
     {
         foreach (Tutorial tutorial in tutorials)
         {
-            // Choose only indicated tutorial
-            if (tutorial.tutorialNumber == tutorialNumber)
+            // disable all devices
+            tutorial.tutorialDevice.SetActive(false);
+
+            // choose only indicated tutorial
+            if (tutorial.tutorialNumber == TutorialNumber)
             {
-                // For all device controllers in tutorial
+                // enable only tutorial device
+                tutorial.tutorialDevice.SetActive(true);
+
+                // for all device controllers in tutorial
                 foreach (Device device in tutorial.devices)
                 {
+                    // subscribe methon on device's models changing
                     device.deviceController.OnModelStateChanged += CheckUserActionInTutorial;
                 }
             }
         }
     }
 
-    // подписать метод на изменения состояния всех устройств в выбранном туториале
+    // when any device in tutorial are changed state
     private void CheckUserActionInTutorial(DeviceModel deviceModel)
     {
-        if (tutorials[tutorialNumber].devices.Count >= currentDeviceNumber)
+        // if user done more actions when there are in tutorial - finish tutorial
+        if (currentDeviceNumber >= tutorials[TutorialNumber].devices.Count - 1)
+        {
+            AppManager.instance.FinishTutorial();
             return;
+        }
 
-        // проверяем текущий верхний элемент из стэка туториала
-        currentDeviceModel = tutorials[tutorialNumber].devices[currentDeviceNumber].deviceController.deviceModel;
+        // init current device model
+        currentDeviceModel = tutorials[TutorialNumber].devices[currentDeviceNumber].deviceController.deviceModel;
+        // check current device model and changed state device model
         if (currentDeviceModel == deviceModel)
         {
-            Debug.Log("Right action for tutorial");
+            // TODO: Add compare id devices and state changing
+
+            Debug.Log("Correct action for tutorial");
             RightTutorialOrder();
 
             currentDeviceNumber++;
         } else
         {
-            Debug.Log("Wrong action for tutorial");
+            // TODO: Add counting of user mistakes
+
+            Debug.Log("Incorrect action for tutorial");
             WrongTutorialOrder();
         }
 
+        // draft
         /*if (deviceModel is ButtonModel)
         {
             ButtonModel buttonModel = (ButtonModel)deviceModel;
@@ -57,29 +78,32 @@ public class TutorialDevice : MonoBehaviour
         }*/
     }
 
-    private void RightTutorialOrder()
-    {
-        
-    }
-
-    private void WrongTutorialOrder()
-    {
-        
-    }
+    private void RightTutorialOrder() { }
+    private void WrongTutorialOrder() { }
 }
 
+/// <summary>
+/// Class describes tutorial
+/// </summary>
 [Serializable]
 public class Tutorial
 {
-    public string tutorialName; // Just for information and convenience in Editor
+    public string tutorialName; // just for information and convenience in Editor
     public int tutorialNumber;
-    public List<Device> devices;
+    public GameObject tutorialDevice;   // prefab main device (combination of devices)
+    public List<Device> devices;    // all devices in tutorial
 }
 
+/// <summary>
+/// Class describe tutorial device
+/// </summary>
 [Serializable]
 public class Device
 {
-    public string deviceName;   // Just for information and convenience in Editor
+    public string deviceName;   // just for information and convenience in Editor
     public int deviceOrder;
     public DeviceController deviceController;
+
+    // TODO: init device method where instantiate prefabs from Resources (or other) source
+    // right now prefabs located on the scene by default
 }
